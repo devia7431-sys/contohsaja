@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akses Token Generator</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .container {
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+            width: 80%;
+            max-width: 400px;
+        }
+        h2 { margin-top: 0; color: #fff; }
+        .token-box {
+            background-color: #000;
+            padding: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            border: 1px dashed #00ff00;
+            margin: 20px 0;
+            word-break: break-all;
+        }
+        button {
+            background-color: #00ff00;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover { background-color: #00cc00; }
+        .footer { margin-top: 20px; font-size: 12px; color: #888; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>VERIFIKASI BERHASIL</h2>
+        <p>Gunakan Token di bawah ini untuk membuka akses bot di Termux Anda.</p>
+        
+        <div class="token-box" id="tokenDisplay">MEMUAT...</div>
+        
+        <button onclick="salinToken()" id="copyBtn">Salin Token</button>
+        <p class="footer">Token ini unik untuk perangkat Anda dan hanya berlaku hari ini.</p>
+    </div>
+
+    <script>
+        // Mengambil parameter '?token=' dari URL link
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+
+        // Menampilkan token ke layar
+        if (token) {
+            document.getElementById('tokenDisplay').innerText = token;
+        } else {
+            document.getElementById('tokenDisplay').innerText = "TOKEN TIDAK DITEMUKAN";
+            document.getElementById('tokenDisplay').style.color = "red";
+            document.getElementById('copyBtn').style.display = "none";
+        }
+
+        // Fungsi untuk tombol Copy
+        function salinToken() {
+            if(token) {
+                navigator.clipboard.writeText(token).then(() => {
+                    document.getElementById('copyBtn').innerText = "Berhasil Disalin!";
+                    setTimeout(() => {
+                        document.getElementById('copyBtn').innerText = "Salin Token";
+                    }, 2000);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
